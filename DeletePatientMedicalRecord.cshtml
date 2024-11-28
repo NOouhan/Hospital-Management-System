@@ -1,0 +1,45 @@
+﻿@model MedicalRecordWithPatientIdList
+@{
+    ViewData["Title"] = "DeletePatientMedicalRecord";
+}
+
+<h1 style="color:black">Delete Patient Medical Record</h1>
+
+<table class="table table-bordered table-hover" style="background-color: azure;">
+    <thead>
+        <tr>
+            <th>Id</th>
+            <th>Full Name</th>
+            <th>Note</th>
+            <th>Delete</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var patient in Model.patientlist)
+        {
+            <tr>
+                <td>@patient.Id</td>
+                <td>@patient.FName @patient.LName</td>
+
+                @if (patient.MedicalRecords != null)
+                {
+                    @foreach (var medicalRecord in patient.MedicalRecords)
+                    {
+                        <td>@medicalRecord.Note</td>
+                        <td>
+                            <form class="requires-validation" novalidate asp-action="DeletePatientMedicalRecord" asp-controller="Doctor" asp-route-id="@patient.Id" asp-route-medicalrecordId="@medicalRecord.Id">
+                                <button id="submit" class="btn btn-primary">
+                                    Delete
+                                </button>
+                            </form>
+                        </td>
+                    }
+                }
+                else
+                {
+                    <td colspan="2">No medical records available</td>
+                }
+            </tr>
+        }
+    </tbody>
+</table>
